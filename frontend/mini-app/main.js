@@ -47,6 +47,12 @@ function renderSticker(sticker) {
   const element = node.querySelector(".sticker");
   node.querySelector(".name").textContent = sticker.name;
   node.querySelector(".description").textContent = sticker.description ?? "";
+  const priceLabel = node.querySelector(".price");
+  if (priceLabel) {
+    priceLabel.textContent = `${(sticker.price_cents / 100).toFixed(2)} ${
+      sticker.currency?.toUpperCase?.() ?? "USD"
+    }`;
+  }
   const img = node.querySelector(".preview");
   if (sticker.image_url) {
     img.src = `${backendUrl}${sticker.image_url}`;
@@ -54,9 +60,7 @@ function renderSticker(sticker) {
     img.classList.add("hidden");
   }
   const button = node.querySelector(".buy");
-  button.textContent = `Buy ${(sticker.price_cents / 100).toFixed(2)} ${
-    sticker.currency?.toUpperCase?.() ?? "USD"
-  }`;
+  button.textContent = "Buy now";
   button.addEventListener("click", async () => {
     button.disabled = true;
     try {

@@ -9,9 +9,10 @@
   </head>
   <body>
     <main>
-      <header>
-        <h1>Sticker Shop</h1>
-        <p>Select a sticker pack to buy it instantly.</p>
+      <header class="hero">
+        <span class="badge">Limited drops</span>
+        <h1>Sticker Bazaar</h1>
+        <p>Discover exclusive Telegram sticker packs crafted by independent artists. Tap a pack to preview and checkout in seconds.</p>
       </header>
       <section id="stickers" class="grid"></section>
       <section id="empty" class="hidden">No stickers available yet.</section>
@@ -22,6 +23,9 @@
         <div class="details">
           <h2 class="name"></h2>
           <p class="description"></p>
+          <div class="meta">
+            <span class="price"></span>
+          </div>
           <button class="buy">Buy</button>
         </div>
       </article>
