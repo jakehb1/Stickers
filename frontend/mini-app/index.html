@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sticker Shop Mini App</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  </head>
+  <body>
+    <main>
+      <header class="hero">
+        <span class="badge">Goodies marketplace</span>
+        <h1>Collectible sticker drops</h1>
+        <p>
+          Curate your Telegram chats with candy-coated sticker packs from the Goodies studio. Tap a
+          collection to explore the art and pick the checkout flow that fits you best.
+        </p>
+      </header>
+      <section id="stickers" class="grid"></section>
+      <section id="empty" class="hidden">No stickers available yet.</section>
+    </main>
+
+    <div id="payment-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="payment-title">
+      <div class="modal-panel">
+        <button type="button" class="close" aria-label="Close payment dialog">&times;</button>
+        <header class="modal-header">
+          <span class="modal-eyebrow">Complete your purchase</span>
+          <h2 id="payment-title"></h2>
+          <p id="payment-subtitle" class="modal-subtitle"></p>
+        </header>
+        <section id="payment-options" class="payment-options"></section>
+        <section id="ton-invoice" class="ton-invoice hidden" aria-live="polite">
+          <h3>Send TON to finish checkout</h3>
+          <p class="ton-lede">
+            Use your preferred TON wallet to send the exact amount below. Include the comment memo so we can match
+            your payment instantly.
+          </p>
+          <div class="ton-meta">
+            <div class="ton-field">
+              <span class="label">Wallet</span>
+              <div class="value">
+                <code id="ton-wallet"></code>
+                <button type="button" class="copy" data-copy-target="ton-wallet">Copy</button>
+              </div>
+            </div>
+            <div class="ton-field">
+              <span class="label">Amount</span>
+              <div class="value">
+                <code id="ton-amount"></code>
+                <button type="button" class="copy" data-copy-target="ton-amount">Copy</button>
+              </div>
+            </div>
+            <div class="ton-field">
+              <span class="label">Comment memo</span>
+              <div class="value">
+                <code id="ton-comment"></code>
+                <button type="button" class="copy" data-copy-target="ton-comment">Copy</button>
+              </div>
+            </div>
+            <div class="ton-field">
+              <span class="label">Invoice expires</span>
+              <div class="value">
+                <span id="ton-expiry"></span>
+              </div>
+            </div>
+          </div>
+          <div class="ton-actions">
+            <label class="label" for="ton-tx-hash">Transaction hash</label>
+            <div class="hash-input">
+              <input id="ton-tx-hash" type="text" placeholder="Enter TON transaction hash" autocomplete="off" />
+              <button id="ton-submit" type="button">Confirm payment</button>
+            </div>
+            <button id="ton-refresh" type="button" class="link-button">Refresh invoice status</button>
+            <p id="ton-status" class="status"></p>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <template id="sticker-card">
+      <article class="sticker">
+        <img class="preview" alt="Sticker preview" />
+        <div class="details">
+          <h2 class="name"></h2>
+          <p class="description"></p>
+          <div class="meta">
+            <span class="price"></span>
+          </div>
+          <button class="buy">Buy</button>
+        </div>
+      </article>
+    </template>
+    <script src="config.js"></script>
+    <script type="module" src="main.js"></script>
+  </body>
+</html>

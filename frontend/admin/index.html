@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Goodies Admin Dashboard</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="layout">
+      <aside class="intro">
+        <span class="eyebrow">Goodies marketplace</span>
+        <h1>Creator control room</h1>
+        <p>
+          Manage the sticker drops that power the Telegram marketplace. Upload artwork, tune pricing,
+          and publish with a single click.
+        </p>
+        <dl class="callouts">
+          <div>
+            <dt>Upload</dt>
+            <dd>Drag in PNG or WEBP sticker previews up to 2&nbsp;MB.</dd>
+          </div>
+          <div>
+            <dt>Instant sync</dt>
+            <dd>New drops appear in the mini app moments after publishing.</dd>
+          </div>
+        </dl>
+      </aside>
+      <section class="workspace">
+        <div class="status hidden" data-status role="status"></div>
+        <section id="auth" class="panel stack">
+          <h2>Admin login</h2>
+          <p class="lede">Enter the shared admin password to unlock the dashboard.</p>
+          <form id="login-form" class="form">
+            <label>
+              Password
+              <input type="password" name="password" required autocomplete="current-password" />
+            </label>
+            <button type="submit" class="primary">Login</button>
+          </form>
+        </section>
+        <section id="dashboard" class="panel hidden stack">
+          <header class="panel-header">
+            <div>
+              <h2>Sticker studio</h2>
+              <p class="lede">Create new drops, or revisit existing Goodies packs.</p>
+            </div>
+            <button id="logout" class="ghost">Logout</button>
+          </header>
+          <form id="upload-form" class="form upload">
+            <div class="form-heading">
+              <h3 data-form-title>Create sticker</h3>
+              <span class="chip live">Live in marketplace</span>
+            </div>
+            <div class="field-grid">
+              <label>
+                Name
+                <input name="name" required placeholder="Cotton Candy Bloom" />
+              </label>
+              <label>
+                Description
+                <textarea name="description" placeholder="Sweet gradients for dreamy chats."></textarea>
+              </label>
+              <label>
+                Price (in cents)
+                <input name="price_cents" type="number" min="1" required placeholder="499" />
+              </label>
+              <label>
+                Currency
+                <input name="currency" value="usd" placeholder="usd" />
+              </label>
+              <label class="file">
+                Image
+                <input type="file" name="image" accept="image/*" />
+                <span class="hint">Square PNG, JPG, or WEBP works best.</span>
+              </label>
+              <label class="toggle">
+                <input type="checkbox" name="active" checked />
+                <span>Active</span>
+              </label>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="primary" data-submit>Save sticker</button>
+              <button type="button" id="cancel-edit" class="ghost hidden">Cancel edit</button>
+            </div>
+            <p class="hint hidden" data-editing-hint>
+              When updating a sticker, upload a new image only if you want to replace the current one.
+            </p>
+          </form>
+          <section class="panel-body">
+            <div class="panel-heading">
+              <h3>Existing stickers</h3>
+              <p class="lede">Tap an item below to edit, toggle availability, or remove it entirely.</p>
+            </div>
+            <ul id="sticker-list" class="sticker-list"></ul>
+          </section>
+        </section>
+      </section>
+    </main>
+    <script src="config.js"></script>
+    <script type="module" src="main.js"></script>
+  </body>
+</html>
