@@ -58,9 +58,15 @@ async def create_checkout_session(
     if not sticker or not sticker.active:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Sticker not found")
 
-    image_urls = []
+    image_urls: list[str] = []
     if sticker.image_url:
-        image_urls.append(request.url_for("static", path=sticker.image_url.lstrip("/")))
+        if sticker.image_url.startswith("http://") or sticker.image_url.startswith("https://"):
+            image_urls.append(sticker.image_url)
+        else:
+            static_path = sticker.image_url.lstrip("/")
+            if static_path.startswith("static/"):
+                static_path = static_path[len("static/") :]
+            image_urls.append(request.url_for("static", path=static_path))
 
     purchase_currency = (sticker.currency or settings.stripe_price_currency).lower()
 

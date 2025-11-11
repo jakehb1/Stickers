@@ -116,15 +116,17 @@ async def delete_sticker(
 
 
 async def save_image(upload: UploadFile) -> str:
-    static_dir = Path(__file__).resolve().parents[2] / "static" / "stickers"
-    static_dir.mkdir(parents=True, exist_ok=True)
+    project_root = Path(__file__).resolve().parents[3]
+    static_root = project_root / "static"
+    stickers_dir = static_root / "stickers"
+    stickers_dir.mkdir(parents=True, exist_ok=True)
 
     suffix = Path(upload.filename or "").suffix or ".png"
-    destination = static_dir / f"{uuid4().hex}{suffix}"
+    destination = stickers_dir / f"{uuid4().hex}{suffix}"
 
     data = await upload.read()
     destination.write_bytes(data)
-    rel_path = destination.relative_to(Path(__file__).resolve().parents[2])
+    rel_path = destination.relative_to(project_root)
     return f"/{rel_path.as_posix()}"
 
 
