@@ -9,8 +9,8 @@ This repository contains a FastAPI backend, a Telegram WebApp mini app and a lig
 - **Sticker management** endpoints for creating, updating, deleting and toggling sticker visibility.
 - **Stripe checkout integration** including webhook handler to mark purchases as fulfilled.
 - **TON blockchain payments** with on-chain invoice tracking backed by configurable wallet and confirmation thresholds.
-- **Telegram mini app** frontend (`frontend/mini-app`) that lists stickers and launches the Stripe checkout session.
-- **Admin dashboard** frontend (`frontend/admin`) to login, upload, edit, activate/deactivate, and delete stickers through the browser.
+- **Telegram mini app** frontend (`apps/mini-app`) that lists stickers and launches the Stripe checkout session.
+- **Admin dashboard** frontend (`apps/admin-dashboard`) to login, upload, edit, activate/deactivate, and delete stickers through the browser.
 
 ## Getting started
 
@@ -62,10 +62,10 @@ The frontends are static and can be hosted by any static server. During developm
 
 ```bash
 # Mini app
-cd frontend/mini-app
+cd apps/mini-app
 python -m http.server 5173
 # Admin dashboard
-cd ../admin
+cd ../admin-dashboard
 python -m http.server 4173
 ```
 
@@ -137,12 +137,21 @@ Expose `https://your-domain/payments/webhook` to Stripe so completed checkout se
 
 ## Deploying the static frontends to Vercel
 
-If you prefer to host the mini app and admin dashboard on Vercel’s static hosting, the repository now includes a [`vercel.json`](./vercel.json) configuration. When you import the project into Vercel choose the **Other** framework preset so no build command runs, then deploy from the repository root.
+Each frontend lives under the `apps/` directory and ships with its own `vercel.json` so you can deploy the mini app and admin dashboard as independent projects or branch previews.
 
-- The `builds` section tells Vercel to publish the static assets from `frontend/mini-app` at the root of the deployment and the files from `frontend/admin` under `/admin`.
-- The `routes` section maps `/` to the Telegram mini app entry point and `/admin` to the admin dashboard, so direct navigation to `https://<your-app>.vercel.app/admin` no longer returns a 404.
+### Mini app deployment
 
-After the deployment finishes, update both `frontend/mini-app/config.js` and `frontend/admin/config.js` (or override `window.API_BASE_URL` at runtime) so they point to the publicly reachable backend API. When the backend sits behind another domain, make sure to enable CORS on that service so the Vercel-hosted frontends can communicate successfully.
+1. Create or switch to a branch dedicated to the Telegram experience (for example `mini-app`).
+2. In Vercel, import the repository and set the **Root Directory** to `apps/mini-app`.
+3. Choose the **Other** framework preset so no build command is executed.
+4. Update `apps/mini-app/config.js` on that branch so `window.API_BASE_URL` targets your production backend (or inject the value at runtime by serving a custom `config.js`).
+5. Deploy the branch. Vercel will use `apps/mini-app/vercel.json` to publish the static assets and configure a catch-all route so reloads stay on the landing page.
+
+### Admin dashboard deployment
+
+Repeat the steps above on a separate branch (for example `admin-dashboard`) and set the **Root Directory** to `apps/admin-dashboard`. Adjust its `config.js` if the admin tools should target a different backend environment. The included `vercel.json` again serves the dashboard as a static site with a single-page-app style catch-all route.
+
+Ensure CORS is configured on the API if it lives on a different domain so both Vercel deployments can communicate successfully.
 
 ## Project structure
 
@@ -162,14 +171,20 @@ backend/
   requirements.txt
   static/
     stickers/
-frontend/
+apps/
   mini-app/
     index.html
     main.js
     styles.css
-  admin/
+    vercel.json
+  admin-dashboard/
     index.html
     main.js
     styles.css
+    vercel.json
+frontend/
+  Dockerfile
+  entrypoint.sh
+  nginx.conf
 README.md
 ```

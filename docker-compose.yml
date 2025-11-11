@@ -16,7 +16,8 @@ services:
 
   frontends:
     build:
-      context: ./frontend
+      context: .
+      dockerfile: frontend/Dockerfile
     environment:
       - API_BASE_URL=http://backend:8000
     depends_on:
