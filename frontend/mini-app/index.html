@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sticker Shop Mini App</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  </head>
+  <body>
+    <main>
+      <header class="hero">
+        <span class="badge">Limited drops</span>
+        <h1>Sticker Bazaar</h1>
+        <p>Discover exclusive Telegram sticker packs crafted by independent artists. Tap a pack to preview and checkout in seconds.</p>
+      </header>
+      <section id="stickers" class="grid"></section>
+      <section id="empty" class="hidden">No stickers available yet.</section>
+    </main>
+    <template id="sticker-card">
+      <article class="sticker">
+        <img class="preview" alt="Sticker preview" />
+        <div class="details">
+          <h2 class="name"></h2>
+          <p class="description"></p>
+          <div class="meta">
+            <span class="price"></span>
+          </div>
+          <button class="buy">Buy</button>
+        </div>
+      </article>
+    </template>
+    <script src="config.js"></script>
+    <script type="module" src="main.js"></script>
+  </body>
+</html>
