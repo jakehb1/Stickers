@@ -135,6 +135,15 @@ For production deployments place the containers behind a TLS-terminating proxy (
 
 Expose `https://your-domain/payments/webhook` to Stripe so completed checkout sessions mark purchases as fulfilled. When running behind a reverse proxy be sure to forward the raw request body and `Stripe-Signature` header to the backend container.
 
+## Deploying the static frontends to Vercel
+
+If you prefer to host the mini app and admin dashboard on Vercel’s static hosting, the repository now includes a [`vercel.json`](./vercel.json) configuration. When you import the project into Vercel choose the **Other** framework preset so no build command runs, then deploy from the repository root.
+
+- The `builds` section tells Vercel to publish the static assets from `frontend/mini-app` at the root of the deployment and the files from `frontend/admin` under `/admin`.
+- The `routes` section maps `/` to the Telegram mini app entry point and `/admin` to the admin dashboard, so direct navigation to `https://<your-app>.vercel.app/admin` no longer returns a 404.
+
+After the deployment finishes, update both `frontend/mini-app/config.js` and `frontend/admin/config.js` (or override `window.API_BASE_URL` at runtime) so they point to the publicly reachable backend API. When the backend sits behind another domain, make sure to enable CORS on that service so the Vercel-hosted frontends can communicate successfully.
+
 ## Project structure
 
 ```
