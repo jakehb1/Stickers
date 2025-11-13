@@ -9,7 +9,6 @@ from .config import get_settings
 from .schemas import TokenPayload
 import bcrypt
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = HTTPBearer()
 
 async def authenticate_admin(password: str) -> bool:
