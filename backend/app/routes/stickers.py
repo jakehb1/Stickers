@@ -30,10 +30,10 @@ async def create_sticker(
     _: Annotated[str, Depends(get_current_admin)],
     name: Annotated[str, Form(...)],
     price_cents: Annotated[int, Form(...)],
-    description: Annotated[str | None, Form(None)] = None,
-    currency: Annotated[str, Form("usd")] = "usd",
-    active: Annotated[bool, Form(True)] = True,
-    image: Annotated[UploadFile | None, File(None)] = None,
+    description: Annotated[str | None, Form()] = None,
+    currency: Annotated[str, Form()] = "usd",
+    active: Annotated[bool, Form()] = True,
+    image: Annotated[str | None, Form()] = None,
 ):
     if price_cents <= 0:
         raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="Price must be positive")
