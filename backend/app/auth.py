@@ -22,7 +22,7 @@ def verify_password(plain_password: str, hashed: str) -> bool:
     """Verify a password against its hash"""
     return bcrypt.checkpw(
         plain_password.encode("utf-8"),
-        hashed.encode("utf-8"),
+        hashed.encode("utf-8")),
 
 def create_access_token(subject: str) -> str:
     settings = get_settings()
