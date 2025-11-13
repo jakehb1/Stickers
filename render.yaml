@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: stickers-backend
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    plan: starter
+    disk:
+      name: stickers-data
+      mountPath: /data
+      sizeGB: 1
+    envVars:
+      - key: DATABASE_URL
+        value: sqlite+aiosqlite:///data/stickers.db
+
+  - type: web
+    name: stickers-frontend
+    runtime: docker
+    dockerfilePath: ./frontend/Dockerfile
+    dockerContext: ./frontend
+    plan: starter
+    envVars:
+      - key: API_BASE_URL
+        value: https://stickers-backend.onrender.com
+
+databases: []

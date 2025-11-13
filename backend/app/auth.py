@@ -4,21 +4,24 @@ from typing import Annotated
 from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from jose import JWTError, jwt
-from passlib.context import CryptContext
-
+    
 from .config import get_settings
 from .schemas import TokenPayload
+import bcrypt
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = HTTPBearer()
-
 
 async def authenticate_admin(password: str) -> bool:
     settings = get_settings()
     if not settings.admin_password_hash:
         raise RuntimeError("ADMIN_PASSWORD_HASH is not set.")
-    return pwd_context.verify(password, settings.admin_password_hash)
+    return verify_password(password, settings.admin_password_hash)
 
+def verify_password(plain_password: str, hashed: str) -> bool:
+    """Verify a password against its hash"""
+    return bcrypt.checkpw(
+        plain_password.encode("utf-8"),
+        hashed.encode("utf-8"))
 
 def create_access_token(subject: str) -> str:
     settings = get_settings()
